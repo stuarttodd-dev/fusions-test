@@ -12,7 +12,10 @@ it('throws when process() is called without CSV attached', function (): void {
     $transformer->process();
 })->throws(InvalidArgumentException::class);
 
-it('throws when process() is called with empty CSV content')->skip();
+it('throws when process() is called with empty CSV content', function (): void {
+    $transformer = new ProductCsvToDemandwareXml('');
+    $transformer->process();
+})->throws(InvalidArgumentException::class);
 
 it('produces valid catalog XML for a single product with one variant')->skip();
 

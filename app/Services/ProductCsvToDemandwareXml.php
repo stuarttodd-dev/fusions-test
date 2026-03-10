@@ -20,7 +20,7 @@ class ProductCsvToDemandwareXml
 
     public function process(): string
     {
-        if ($this->csv === null) {
+        if ($this->csv === null || $this->csv === '') {
             throw new InvalidArgumentException('No CSV data attached. Provide CSV via constructor or attachCSV() before calling process().');
         }
 
