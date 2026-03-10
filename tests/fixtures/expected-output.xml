@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog xmlns="http://www.demandware.com/xml/impex/catalog/2006-10-31"
+catalog-id="TestCatalog">
+<product product-id="PROD123">
+<display-name xml:lang="x-default">Antman T-shirt</display-name>
+<brand>Marvel</brand>
+<variations>
+<variants>
+<variant product-id="897654321"/>
+<variant product-id="897654322" default="true"/>
+<variant product-id="897654323"/>
+</variants>
+</variations>
+</product>
+<product product-id="897654321">
+<custom-attributes>
+<custom-attribute attribute-id="colour">Red</custom-attribute>
+<custom-attribute attribute-id="size">Small</custom-attribute>
+</custom-attributes>
+</product>
+<product product-id="897654322">
+<custom-attributes>
+<custom-attribute attribute-id="colour">Red</custom-attribute>
+<custom-attribute attribute-id="size">Medium</custom-attribute>
+</custom-attributes>
+</product>
+<product product-id="897654323">
+<custom-attributes>
+<custom-attribute attribute-id="colour">Red</custom-attribute>
+<custom-attribute attribute-id="size">Large</custom-attribute>
+</custom-attributes>
+</product>
+<product product-id="PROD456">
+<display-name xml:lang="x-default">Arrow's Arrow</display-name>
+<brand>DC</brand>
+<variations>
+<variants>
+<variant product-id="897654324" default="true"/>
+<variant product-id="897654325"/>
+<variant product-id="897654326"/>
+</variants>
+</variations>
+</product>
+<product product-id="897654324">
+<custom-attributes>
+<custom-attribute attribute-id="colour">Metallic</custom-attribute>
+<custom-attribute attribute-id="size">Standard</custom-attribute>
+</custom-attributes>
+</product>
+<product product-id="897654325">
+<custom-attributes>
+<custom-attribute attribute-id="colour">Wood</custom-attribute>
+<custom-attribute attribute-id="size">Poisonous</custom-attribute>
+</custom-attributes>
+</product>
+<product product-id="897654326">
+<custom-attributes>
+<custom-attribute attribute-id="colour">Titanium</custom-attribute>
+<custom-attribute attribute-id="size">Exploding</custom-attribute>
+</custom-attributes>
+</product>
+</catalog>
