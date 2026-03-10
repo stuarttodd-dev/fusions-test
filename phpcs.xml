@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<ruleset name="Laravel Template Coding Standard">
+    <description>Project-specific PHP_CodeSniffer rules tuned for the Laravel template.</description>
+
+    <arg name="basepath" value="."/>
+    <arg name="extensions" value="php"/>
+    <arg name="parallel" value="8"/>
+
+    <file>app</file>
+    <file>tests</file>
+
+    <exclude-pattern>vendor/*</exclude-pattern>
+    <exclude-pattern>storage/*</exclude-pattern>
+
+    <rule ref="PSR12"/>
+
+    <!-- Allow snake_case PHPUnit test method names that ship with Laravel -->
+    <rule ref="PSR1.Methods.CamelCapsMethodName">
+        <exclude-pattern>tests/*</exclude-pattern>
+    </rule>
+</ruleset>
+

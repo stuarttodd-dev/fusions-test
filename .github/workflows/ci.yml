@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+
+jobs:
+  standards:
+    name: Tests & Standards
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+          tools: composer
+          extensions: mbstring, intl, sqlite3
+          ini-values: memory_limit=1G
+
+      - name: Validate composer configuration
+        run: composer validate --no-interaction
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.19.0'
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Run application test suite
+        run: composer tests
+
+      - name: Run standards check
+        run: composer standards:check
+
