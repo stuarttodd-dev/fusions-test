@@ -18,6 +18,11 @@ class ProductCsvToDemandwareXml
         return $this;
     }
 
+    public function getRawCSV(): ?string
+    {
+        return $this->csv;
+    }
+
     public function process(): string
     {
         if ($this->csv === null || $this->csv === '') {

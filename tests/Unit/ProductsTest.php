@@ -19,4 +19,13 @@ it('throws when process() is called with empty CSV content', function (): void {
 
 it('produces valid catalog XML for a single product with one variant')->skip();
 
-it('can attach CSV via attachCSV() then process')->skip();
+it('can attach CSV via attachCSV() then process', function (): void {
+    $transformer = new ProductCsvToDemandwareXml();
+    $transformer->attachCSV('a,b,c');
+    expect($transformer->getRawCSV())->toBe('a,b,c');
+});
+
+it('constructor correctly assigns CSV data', function (): void {
+    $transformer = new ProductCsvToDemandwareXml('a,b,c');
+    expect($transformer->getRawCSV())->toBe('a,b,c');
+});
