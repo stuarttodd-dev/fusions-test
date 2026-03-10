@@ -24,7 +24,8 @@ services:
         networks:
             - sail
         depends_on:
-            - mysql
+            mysql:
+                condition: service_healthy
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
@@ -47,7 +48,9 @@ services:
                 - mysqladmin
                 - ping
                 - '-p${DB_PASSWORD}'
-            retries: 3
+            interval: 5s
+            start_period: 15s
+            retries: 10
             timeout: 5s
 networks:
     sail:
