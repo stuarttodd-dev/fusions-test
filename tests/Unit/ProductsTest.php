@@ -1,38 +1,47 @@
 <?php
 
-use App\Services\ProductCsvToDemandwareXml;
+use App\Services\DemandwareTransformer;
+use App\Services\ProductCsvProcessor;
 use Tests\TestCase;
 
 uses(TestCase::class);
 
-it('outputs Demandware XML that matches expected fixture when given fixture CSV')->skip();
+it('outputs Demandware XML that matches expected fixture when given fixture CSV', function (): void {
+    $csv = file_get_contents(__DIR__ . '/../fixtures/product-data.csv');
+    $expectedXml = file_get_contents(__DIR__ . '/../fixtures/expected-output.xml');
+
+    $processor = new ProductCsvProcessor($csv, new DemandwareTransformer());
+    $actualXml = $processor->process();
+
+    expect(normaliseXml($actualXml))->toBe(normaliseXml($expectedXml));
+});
 
 it('throws when process() is called without CSV attached', function (): void {
-    $transformer = new ProductCsvToDemandwareXml();
-    $transformer->process();
+    $processor = new ProductCsvProcessor();
+    $processor->process();
 })->throws(InvalidArgumentException::class);
 
 it('throws when process() is called with empty CSV content', function (): void {
-    $transformer = new ProductCsvToDemandwareXml('');
-    $transformer->process();
+    $processor = new ProductCsvProcessor('');
+    $processor->process();
 })->throws(InvalidArgumentException::class);
 
 it('produces valid catalog XML for a single product with one variant')->skip();
 
 it('can attach CSV via attachCSV() then process', function (): void {
-    $transformer = new ProductCsvToDemandwareXml();
-    $transformer->attachCSV('a,b,c');
-    expect($transformer->getRawCSV())->toBe('a,b,c');
+    $processor = new ProductCsvProcessor();
+    $processor->attachCSV('a,b,c');
+    expect($processor->getRawCSV())->toBe('a,b,c');
 });
 
 it('constructor correctly assigns CSV data', function (): void {
-    $transformer = new ProductCsvToDemandwareXml('a,b,c');
-    expect($transformer->getRawCSV())->toBe('a,b,c');
+    $processor = new ProductCsvProcessor('a,b,c');
+    expect($processor->getRawCSV())->toBe('a,b,c');
 });
 
 it('throws when CSV is invalid', function (string $badCsv): void {
-    $transformer = new ProductCsvToDemandwareXml($badCsv);
-    $transformer->process();
+    $processor = new ProductCsvProcessor($badCsv);
+    $processor->process();
 })->throws(InvalidArgumentException::class)->with([
     'empty after trim' => ["\n  \n"],
     'too few columns' => ['a,b,c'],
@@ -40,6 +49,16 @@ it('throws when CSV is invalid', function (string $badCsv): void {
 
 it('accepts CSV when each row has the expected column count', function (): void {
     $csv = "PROD123,Marvel,Antman T-shirt,897654321,Red,Small,N";
-    $transformer = new ProductCsvToDemandwareXml($csv);
-    expect($transformer->process())->toBe('');
+    $processor = new ProductCsvProcessor($csv);
+    expect($processor->process())->toBe('');
 });
+
+function normaliseXml(string $xml): string
+{
+    $dom = new \DOMDocument();
+    $dom->preserveWhiteSpace = false;
+    $dom->formatOutput = false;
+    @$dom->loadXML($xml);
+
+    return trim($dom->saveXML() ?: $xml);
+}

@@ -2,13 +2,15 @@
 
 namespace App\Services;
 
+use App\Contracts\CsvToXmlTransformer;
 use InvalidArgumentException;
 
-class ProductCsvToDemandwareXml
+class ProductCsvProcessor
 {
-    public function __construct(private ?string $csv = null)
-    {
-        //
+    public function __construct(
+        private ?string $csv = null,
+        private ?CsvToXmlTransformer $transformer = null
+    ) {
     }
 
     public function attachCSV(string $csv): self
@@ -31,7 +33,11 @@ class ProductCsvToDemandwareXml
 
         $this->validateCSV();
 
-        return '';
+        if ($this->transformer === null) {
+            return '';
+        }
+
+        return $this->transformer->transform($this->csv);
     }
 
     private function validateCSV(): void
