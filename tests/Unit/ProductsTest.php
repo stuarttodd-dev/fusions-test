@@ -1,12 +1,16 @@
 <?php
 
+use App\Services\ProductCsvToDemandwareXml;
 use Tests\TestCase;
 
 uses(TestCase::class);
 
 it('outputs Demandware XML that matches expected fixture when given fixture CSV')->skip();
 
-it('throws when process() is called without CSV attached')->skip();
+it('throws when process() is called without CSV attached', function (): void {
+    $transformer = new ProductCsvToDemandwareXml();
+    $transformer->process();
+})->throws(InvalidArgumentException::class);
 
 it('throws when process() is called with empty CSV content')->skip();
 
