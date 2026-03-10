@@ -52,13 +52,3 @@ it('accepts CSV when each row has the expected column count', function (): void 
     $processor = new ProductCsvProcessor($csv);
     expect($processor->process())->toBe('');
 });
-
-function normaliseXml(string $xml): string
-{
-    $dom = new \DOMDocument();
-    $dom->preserveWhiteSpace = false;
-    $dom->formatOutput = false;
-    @$dom->loadXML($xml);
-
-    return trim($dom->saveXML() ?: $xml);
-}
